@@ -1,32 +1,33 @@
+# docker-compose.production.yml
 version: '3'
 
 volumes:
   pg_data:
   static:
   media:
-
+  
 services:
   db:
-    image: postgres:13
+    image: postgres:13.10
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
   backend:
-    build: ./backend/
+    depends_on:
+      - db
+    image: zaritskiyaa/kittygram_backend
     env_file: .env
     volumes:
       - static:/backend_static
       - media:/app/media
-    depends_on:
-      - db
   frontend:
+    image: zaritskiyaa/kittygram_frontend  # Качаем с Docker Hub
     env_file: .env
-    build: ./frontend/
     command: cp -r /app/build/. /frontend_static/
     volumes:
       - static:/frontend_static
   gateway:
-    build: ./nginx/
+    image: zaritskiyaa/kittygram_gateway  # Качаем с Docker Hub
     env_file: .env
     volumes:
       - static:/staticfiles
