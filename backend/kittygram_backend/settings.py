@@ -55,16 +55,16 @@ TEMPLATES = [
 WSGI_APPLICATION = 'kittygram_backend.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('POSTGRES_DB'),
-        'USER': config('POSTGRES_USER'),
-        'PASSWORD': config('POSTGRES_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
-    }
-}
+DATABASES = { 
+    'default': { 
+        'ENGINE': 'django.db.backends.postgresql', 
+        'NAME': os.getenv('POSTGRES_DB', 'django'), 
+        'USER': os.getenv('POSTGRES_USER', 'django'), 
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''), 
+        'HOST': os.getenv('DB_HOST', ''), 
+        'PORT': os.getenv('DB_PORT', 5432), 
+    } 
+} 
 
 
 # Password validation
